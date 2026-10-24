@@ -1,0 +1,646 @@
+-- ================================================
+-- PAKHUB - FOREST INDEX & AUTO-STEALER (FULL AUTO)
+-- ================================================
+
+local Players = game:GetService("Players")
+local Workspace = game:GetService("Workspace")
+local RunService = game:GetService("RunService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local player = Players.LocalPlayer
+
+local SAFE_COORDINATES = Vector3.new(547.34, 71.11, -400.42)
+local DISCORD_LINK = "https://discord.gg/sFfyar25Z"
+
+if player.PlayerGui:FindFirstChild("PakHubSystem") then
+    player.PlayerGui.PakHubSystem:Destroy()
+end
+
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "PakHubSystem"
+screenGui.ResetOnSpawn = false
+screenGui.Parent = player:WaitForChild("PlayerGui")
+
+local function copyDiscordLink()
+    if setclipboard then
+        setclipboard(DISCORD_LINK)
+    elseif syn and syn.write_clipboard then
+        syn.write_clipboard(DISCORD_LINK)
+    elseif toclipboard then
+        toclipboard(DISCORD_LINK)
+    end
+end
+
+local popupFrame = Instance.new("Frame")
+popupFrame.Size = UDim2.new(0, 440, 0, 310)
+popupFrame.Position = UDim2.new(0.5, -220, 0.5, -155)
+popupFrame.BackgroundColor3 = Color3.fromRGB(16, 16, 22)
+popupFrame.BorderSizePixel = 0
+popupFrame.Draggable = true
+popupFrame.Active = true
+popupFrame.Parent = screenGui
+
+Instance.new("UICorner", popupFrame).CornerRadius = UDim.new(0, 12)
+local stroke = Instance.new("UIStroke")
+stroke.Color = Color3.fromRGB(88, 101, 242)
+stroke.Thickness = 1.5
+stroke.Parent = popupFrame
+
+local topText = Instance.new("TextLabel")
+topText.Size = UDim2.new(1, 0, 0, 30)
+topText.Position = UDim2.new(0, 0, 0, 15)
+topText.BackgroundTransparency = 1
+topText.TextColor3 = Color3.fromRGB(114, 137, 218)
+topText.TextSize = 13
+topText.Font = Enum.Font.GothamBold
+topText.Text = DISCORD_LINK
+topText.Parent = popupFrame
+
+local joinTitle = Instance.new("TextLabel")
+joinTitle.Size = UDim2.new(1, 0, 0, 25)
+joinTitle.Position = UDim2.new(0, 0, 0, 45)
+joinTitle.BackgroundTransparency = 1
+joinTitle.TextColor3 = Color3.fromRGB(240, 240, 250)
+joinTitle.TextSize = 16
+joinTitle.Font = Enum.Font.GothamBold
+joinTitle.Text = "JOIN OUR DISCORD"
+joinTitle.Parent = popupFrame
+
+local descText = Instance.new("TextLabel")
+descText.Size = UDim2.new(0.9, 0, 0, 40)
+descText.Position = UDim2.new(0.05, 0, 0, 75)
+descText.BackgroundTransparency = 1
+descText.TextColor3 = Color3.fromRGB(150, 150, 170)
+descText.TextSize = 11
+descText.Font = Enum.Font.Gotham
+descText.TextWrapped = true
+descText.Text = "Join our Discord for updates, fixes and news about the hub."
+descText.Parent = popupFrame
+
+local joinDiscordBtn = Instance.new("TextButton")
+joinDiscordBtn.Size = UDim2.new(0.9, 0, 0, 38)
+joinDiscordBtn.Position = UDim2.new(0.05, 0, 0, 155)
+joinDiscordBtn.BackgroundColor3 = Color3.fromRGB(88, 101, 242)
+joinDiscordBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+joinDiscordBtn.TextSize = 13
+joinDiscordBtn.Font = Enum.Font.GothamBold
+joinDiscordBtn.Text = "JOIN DISCORD"
+joinDiscordBtn.BorderSizePixel = 0
+joinDiscordBtn.Parent = popupFrame
+Instance.new("UICorner", joinDiscordBtn).CornerRadius = UDim.new(0, 8)
+
+joinDiscordBtn.MouseButton1Click:Connect(function()
+    copyDiscordLink()
+    joinDiscordBtn.Text = "✅ LINK KOPIERT!"
+    task.wait(1.5)
+    joinDiscordBtn.Text = "JOIN DISCORD"
+end)
+
+local continueBtn = Instance.new("TextButton")
+continueBtn.Size = UDim2.new(0.9, 0, 0, 38)
+continueBtn.Position = UDim2.new(0.05, 0, 0, 202)
+continueBtn.BackgroundColor3 = Color3.fromRGB(88, 101, 242)
+continueBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+continueBtn.TextSize = 13
+continueBtn.Font = Enum.Font.GothamBold
+continueBtn.Text = "CONTINUE TO HUB"
+continueBtn.BorderSizePixel = 0
+continueBtn.Parent = popupFrame
+Instance.new("UICorner", continueBtn).CornerRadius = UDim.new(0, 8)
+
+continueBtn.MouseButton1Click:Connect(function()
+    popupFrame:Destroy()local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 520, 0, 340)
+mainFrame.Position = UDim2.new(0.5, -260, 0.5, -170)
+mainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
+mainFrame.BorderSizePixel = 0
+mainFrame.Draggable = true
+mainFrame.Active = true
+mainFrame.Parent = screenGui
+
+Instance.new("UICorner", mainFrame).CornerRadius = UDim.new(0, 10)
+local mainStroke = Instance.new("UIStroke")
+mainStroke.Color = Color3.fromRGB(40, 40, 55)
+mainStroke.Thickness = 1.5
+mainStroke.Parent = mainFrame
+
+local toggleCircle = Instance.new("TextButton")
+toggleCircle.Size = UDim2.new(0, 55, 0, 55)
+toggleCircle.Position = UDim2.new(1, -70, 0.4, 0)
+toggleCircle.BackgroundColor3 = Color3.fromRGB(18, 18, 25)
+toggleCircle.TextColor3 = Color3.fromRGB(88, 101, 242)
+toggleCircle.TextSize = 11
+toggleCircle.Font = Enum.Font.GothamBold
+toggleCircle.Text = "pakhub"
+toggleCircle.Visible = false
+toggleCircle.Draggable = true
+toggleCircle.Active = true
+toggleCircle.Parent = screenGui
+Instance.new("UICorner", toggleCircle).CornerRadius = UDim.new(1, 0)
+
+local topBar = Instance.new("Frame")
+topBar.Size = UDim2.new(1, 0, 0, 35)
+topBar.BackgroundTransparency = 1
+topBar.Parent = mainFrame
+
+local logoText = Instance.new("TextLabel")
+logoText.Size = UDim2.new(0, 200, 1, 0)
+logoText.Position = UDim2.new(0, 15, 0, 0)
+logoText.BackgroundTransparency = 1
+logoText.TextColor3 = Color3.fromRGB(255, 255, 255)
+logoText.TextSize = 13
+logoText.Font = Enum.Font.GothamBold
+logoText.Text = "pakhub"
+logoText.TextXAlignment = Enum.TextXAlignment.Left
+logoText.Parent = topBar
+
+local closeBtn = Instance.new("TextButton")
+closeBtn.Size = UDim2.new(0, 22, 0, 22)
+closeBtn.Position = UDim2.new(1, -30, 0, 6)
+closeBtn.BackgroundColor3 = Color3.fromRGB(24, 24, 32)
+closeBtn.TextColor3 = Color3.fromRGB(180, 180, 200)
+closeBtn.TextSize = 10
+closeBtn.Font = Enum.Font.GothamBold
+closeBtn.Text = "✕"
+closeBtn.Parent = topBar
+Instance.new("UICorner", closeBtn).CornerRadius = UDim.new(0, 5)
+
+closeBtn.MouseButton1Click:Connect(function()
+    screenGui:Destroy()
+end)
+
+local minBtn = Instance.new("TextButton")
+minBtn.Size = UDim2.new(0, 22, 0, 22)
+minBtn.Position = UDim2.new(1, -58, 0, 6)
+minBtn.BackgroundColor3 = Color3.fromRGB(24, 24, 32)
+minBtn.TextColor3 = Color3.fromRGB(180, 180, 200)
+minBtn.TextSize = 10
+minBtn.Font = Enum.Font.GothamBold
+minBtn.Text = "-"
+minBtn.Parent = topBar
+Instance.new("UICorner", minBtn).CornerRadius = UDim.new(0, 5)
+
+minBtn.MouseButton1Click:Connect(function()
+    mainFrame.Visible = false
+    toggleCircle.Visible = true
+end)
+
+toggleCircle.MouseButton1Click:Connect(function()
+    mainFrame.Visible = true
+    toggleCircle.Visible = false
+end)
+
+local contentFrame = Instance.new("Frame")
+contentFrame.Size = UDim2.new(1, -145, 1, -45)
+contentFrame.Position = UDim2.new(0, 140, 0, 38)
+contentFrame.BackgroundColor3 = Color3.fromRGB(11, 11, 15)
+contentFrame.Parent = mainFrame
+Instance.new("UICorner", contentFrame).CornerRadius = UDim.new(0, 8)
+
+local function createTabContainer()
+    local container = Instance.new("Frame")
+    container.Size = UDim2.new(1, 0, 1, 0)
+    container.BackgroundTransparency = 1
+    container.Visible = false
+    container.Parent = contentFrame
+    return container
+end
+
+-- TABS
+local tabContainers = {
+    FARM = createTabContainer(),
+    PLAYER = createTabContainer(),
+    PETS = createTabContainer(),
+    MISC = createTabContainer()
+}
+
+-- --- TAB 1: FARM ---
+local farmContainer = tabContainers["FARM"]
+
+local startFarmBtn = Instance.new("TextButton")
+startFarmBtn.Size = UDim2.new(0.98, 0, 0, 42)
+startFarmBtn.Position = UDim2.new(0.01, 0, 0.02, 0)
+startFarmBtn.BackgroundColor3 = Color3.fromRGB(46, 204, 113)
+startFarmBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+startFarmBtn.TextSize = 13
+startFarmBtn.Font = Enum.Font.GothamBold
+startFarmBtn.Text = "STEAL EGG NOW"
+startFarmBtn.Parent = farmContainer
+Instance.new("UICorner", startFarmBtn).CornerRadius = UDim.new(0, 6)
+
+local refreshBtn = Instance.new("TextButton")
+refreshBtn.Size = UDim2.new(0.98, 0, 0, 28)
+refreshBtn.Position = UDim2.new(0.01, 0, 0.18, 0)
+refreshBtn.BackgroundColor3 = Color3.fromRGB(52, 152, 219)
+refreshBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+refreshBtn.TextSize = 10
+refreshBtn.Font = Enum.Font.GothamBold
+refreshBtn.Text = "🔄 REFRESH / SCAN EGGS"
+refreshBtn.Parent = farmContainer
+Instance.new("UICorner", refreshBtn).CornerRadius = UDim.new(0, 6)
+
+local statusText = Instance.new("TextLabel")
+statusText.Size = UDim2.new(0.98, 0, 0, 18)
+statusText.Position = UDim2.new(0.01, 0, 0.28, 0)
+statusText.BackgroundTransparency = 1
+statusText.TextColor3 = Color3.fromRGB(180, 220, 255)
+statusText.TextSize = 10
+statusText.Font = Enum.Font.Code
+statusText.TextXAlignment = Enum.TextXAlignment.Left
+statusText.Text = "Wähle ein Ei aus der Liste unten."
+statusText.Parent = farmContainer
+
+local eggListFrame = Instance.new("ScrollingFrame")
+eggListFrame.Size = UDim2.new(0.98, 0, 0, 195)
+eggListFrame.Position = UDim2.new(0.01, 0, 0.36, 0)
+eggListFrame.BackgroundColor3 = Color3.fromRGB(18, 18, 25)
+eggListFrame.BorderSizePixel = 0
+eggListFrame.ScrollBarThickness = 3
+eggListFrame.ScrollBarImageColor3 = Color3.fromRGB(88, 101, 242)
+eggListFrame.Parent = farmContainer
+Instance.new("UICorner", eggListFrame).CornerRadius = UDim.new(0, 6)
+Instance.new("UIListLayout", eggListFrame).Padding = UDim.new(0, 4)-- --- TAB 2: PLAYER (Speed & Grab) ---
+local playerContainer = tabContainers["PLAYER"]
+
+local speedLabel = Instance.new("TextLabel")
+speedLabel.Size = UDim2.new(0.98, 0, 0, 20)
+speedLabel.Position = UDim2.new(0.01, 0, 0.02, 0)
+speedLabel.BackgroundTransparency = 1
+speedLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+speedLabel.Font = Enum.Font.GothamBold
+speedLabel.TextSize = 12
+speedLabel.TextXAlignment = Enum.TextXAlignment.Left
+speedLabel.Text = "Player Speed (0 - 1000)"
+speedLabel.Parent = playerContainer
+
+local speedSlider = Instance.new("TextButton")
+speedSlider.Size = UDim2.new(0.98, 0, 0, 25)
+speedSlider.Position = UDim2.new(0.01, 0, 0.1, 0)
+speedSlider.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+speedSlider.TextColor3 = Color3.fromRGB(255, 255, 255)
+speedSlider.TextSize = 11
+speedSlider.Text = "Aktuell: 16"
+speedSlider.Parent = playerContainer
+Instance.new("UICorner", speedSlider).CornerRadius = UDim.new(0, 6)
+
+local targetSpeed = 16
+speedSlider.MouseButton1Click:Connect(function()
+    targetSpeed = targetSpeed + 50
+    if targetSpeed > 1000 then targetSpeed = 0 end
+    speedSlider.Text = "Aktuell: " .. targetSpeed
+end)
+
+local instantGrabToggle = Instance.new("TextButton")
+instantGrabToggle.Size = UDim2.new(0.98, 0, 0, 38)
+instantGrabToggle.Position = UDim2.new(0.01, 0, 0.2, 0)
+instantGrabToggle.BackgroundColor3 = Color3.fromRGB(30, 30, 42)
+instantGrabToggle.TextColor3 = Color3.fromRGB(140, 140, 160)
+instantGrabToggle.TextSize = 11
+instantGrabToggle.Font = Enum.Font.GothamBold
+instantGrabToggle.Text = "Instant Grab: OFF"
+instantGrabToggle.Parent = playerContainer
+Instance.new("UICorner", instantGrabToggle).CornerRadius = UDim.new(0, 6)
+
+local instantGrabEnabled = false
+instantGrabToggle.MouseButton1Click:Connect(function()
+    instantGrabEnabled = not instantGrabEnabled
+    instantGrabToggle.Text = "Instant Grab: " .. (instantGrabEnabled and "ON" or "OFF")
+    instantGrabToggle.BackgroundColor3 = instantGrabEnabled and Color3.fromRGB(46, 204, 113) or Color3.fromRGB(30, 30, 42)
+end)
+
+local fullAutoToggle = Instance.new("TextButton")
+fullAutoToggle.Size = UDim2.new(0.98, 0, 0, 38)
+fullAutoToggle.Position = UDim2.new(0.01, 0, 0.35, 0)
+fullAutoToggle.BackgroundColor3 = Color3.fromRGB(30, 30, 42)
+fullAutoToggle.TextColor3 = Color3.fromRGB(140, 140, 160)
+fullAutoToggle.TextSize = 11
+fullAutoToggle.Font = Enum.Font.GothamBold
+fullAutoToggle.Text = "Full Auto (Loop): OFF"
+fullAutoToggle.Parent = playerContainer
+Instance.new("UICorner", fullAutoToggle).CornerRadius = UDim.new(0, 6)
+
+local fullAutoEnabled = false
+fullAutoToggle.MouseButton1Click:Connect(function()
+    fullAutoEnabled = not fullAutoEnabled
+    fullAutoToggle.Text = "Full Auto (Loop): " .. (fullAutoEnabled and "ON" or "OFF")
+    fullAutoToggle.BackgroundColor3 = fullAutoEnabled and Color3.fromRGB(46, 204, 113) or Color3.fromRGB(30, 30, 42)
+    if not fullAutoEnabled and state.Busy then state.Cancel = true end
+end)
+
+-- --- Logik ---
+local networkingFolder = ReplicatedStorage:WaitForChild("Packages"):WaitForChild("Networking")
+local EggState, Assets, Mutations
+pcall(function() EggState = require(ReplicatedStorage.Client.EggState) end)
+pcall(function() Assets = require(ReplicatedStorage.Data.Assets) end)
+pcall(function() Mutations = require(ReplicatedStorage.Shared.Modules.Mutations) end)
+
+local function remote(name) return networkingFolder:FindFirstChild(name) end
+local function root()
+    local character = player.Character
+    return character and character:FindFirstChild("HumanoidRootPart")
+end
+local state = { Carrying = false, Uid = nil, Delivered = 0, Busy = false, Cancel = false }
+
+-- Speed Bypass Loop
+RunService.Heartbeat:Connect(function()
+    local char = player.Character
+    if char then
+        local human = char:FindFirstChildOfClass("Humanoid")
+        if human and human.WalkSpeed ~= targetSpeed then
+            human.WalkSpeed = targetSpeed
+        end
+    end
+end)
+
+local function snapshot()
+    local list = {}
+    local ok, result = pcall(function() return remote("RF/EggWorld/AskFieldEggSnapshot"):InvokeServer() end)
+    local records = ok and type(result) == "table" and result.Records or nil
+    if type(records) ~= "table" then return list end
+    for _, record in pairs(records) do
+        if type(record) == "table" and type(record.Uid) == "string" and (record.State == "Slot" or record.State == "Dropped") and typeof(record.BottomCFrame) == "CFrame" then
+            list[#list + 1] = record
+        end
+    end
+    return list
+end
+
+local function money(value)
+    local units = { { 1e12, "T" }, { 1e9, "B" }, { 1e6, "M" }, { 1e3, "K" } }
+    for _, u in ipairs(units) do
+        if value >= u[1] then return string.format("$%.2f%s/s", value / u[1], u[2]) end
+    end
+    return string.format("$%d/s", math.floor(value + 0.5))
+end
+
+local function describe(record)
+    local directory = type(Assets) == "table" and Assets.Directory or nil
+    local entry = type(directory) == "table" and directory[tostring(record.AssetCategory)] or nil
+    local info = { Uid = record.Uid, Category = tostring(record.AssetCategory), Name = tostring(record.AssetCategory), Icon = "", Value = 0 }
+    if type(entry) == "table" then
+        info.Name = tostring(entry.DisplayName or record.AssetCategory)
+        local icon = entry.Icon
+        if icon ~= nil and tostring(icon) ~= "" then
+            info.Icon = tonumber(tostring(icon)) and ("rbxassetid://" .. tostring(icon)) or tostring(icon)
+        end
+        local scale = tonumber(record.AssetScale) or 1
+        local factor = scale > 5 and (scale / 5) ^ 1.2 * 19.637875755794113 or scale ^ 1.85
+        local mutation = 1
+        if type(Mutations) == "table" and type(Mutations.EarningsFor) == "function" then
+            local okM, resM = pcall(Mutations.EarningsFor, type(record.Mutations) == "table" and record.Mutations or {})
+            if okM and type(resM) == "number" then mutation = resM end
+        end
+        info.Value = (tonumber(entry.EarningRate) or 0) * factor * mutation
+    end
+    return info
+end
+
+local selectedUid = nil
+local rows = {}local function rebuild()
+    for _, row in pairs(rows) do row.Frame:Destroy() end
+    table.clear(rows)
+    local infos = {}
+    for _, record in ipairs(snapshot()) do infos[#infos + 1] = describe(record) end
+    table.sort(infos, function(a, b) return a.Value > b.Value end)
+
+    for index, info in ipairs(infos) do
+        local frame = Instance.new("TextButton")
+        frame.Size = UDim2.new(1, -6, 0, 36)
+        frame.BackgroundColor3 = info.Uid == selectedUid and Color3.fromRGB(45, 45, 60) or Color3.fromRGB(25, 25, 35)
+        frame.LayoutOrder = index
+        frame.Text = ""
+        frame.Parent = eggListFrame
+        Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 6)
+
+        local icon = Instance.new("ImageLabel")
+        icon.Size = UDim2.fromOffset(28, 28)
+        icon.Position = UDim2.fromOffset(4, 4)
+        icon.BackgroundTransparency = 1
+        icon.Image = info.Icon
+        icon.Parent = frame
+
+        local nameLbl = Instance.new("TextLabel")
+        nameLbl.Size = UDim2.new(1, -40, 0, 16)
+        nameLbl.Position = UDim2.fromOffset(36, 2)
+        nameLbl.BackgroundTransparency = 1
+        nameLbl.TextColor3 = Color3.fromRGB(255, 255, 255)
+        nameLbl.Font = Enum.Font.GothamBold
+        nameLbl.TextSize = 11
+        nameLbl.TextXAlignment = Enum.TextXAlignment.Left
+        nameLbl.TextTruncate = Enum.TextTruncate.AtEnd
+        nameLbl.Text = info.Name
+        nameLbl.Parent = frame
+
+        local moneyLbl = Instance.new("TextLabel")
+        moneyLbl.Size = UDim2.new(1, -40, 0, 14)
+        moneyLbl.Position = UDim2.fromOffset(36, 18)
+        moneyLbl.BackgroundTransparency = 1
+        moneyLbl.TextColor3 = Color3.fromRGB(46, 204, 113)
+        moneyLbl.Font = Enum.Font.GothamMedium
+        moneyLbl.TextSize = 10
+        moneyLbl.TextXAlignment = Enum.TextXAlignment.Left
+        moneyLbl.Text = money(info.Value)
+        moneyLbl.Parent = frame
+
+        rows[info.Uid] = { Frame = frame }
+        
+        frame.MouseButton1Click:Connect(function()
+            selectedUid = info.Uid
+            statusText.Text = "Ausgewählt: " .. info.Name
+            rebuild()
+        end)
+    end
+end
+
+refreshBtn.MouseButton1Click:Connect(function()
+    if not state.Busy then rebuild() end
+end)
+
+local function flyTo(targetPos)
+    local char = player.Character
+    if not char then return end
+    local hrp = char:FindFirstChild("HumanoidRootPart")
+    if not hrp then return end
+    
+    -- Sicherheits-Teleport zum Vektor 1
+    hrp.CFrame = CFrame.new(SAFE_COORDINATES)
+    task.wait(0.2)
+    
+    -- Hoch gehen
+    local flightPos = targetPos + Vector3.new(0, 50, 0)
+    hrp.CFrame = CFrame.new(flightPos)
+    task.wait(0.2)
+    
+    -- Hinfliegen
+    hrp.CFrame = CFrame.new(targetPos) * CFrame.new(0, 3, 0)
+    task.wait(0.2)
+end
+
+local function stealAndDeliver(uid)
+    if state.Busy or not uid then return end
+    state.Busy = true
+    state.Cancel = false
+    statusText.Text = "Starte Steal-Vorgang..."
+    
+    task.spawn(function()
+        local ok, err = pcall(function()
+            local eggPos = nil
+            for _, rec in ipairs(snapshot()) do
+                if rec.Uid == uid then eggPos = rec.BottomCFrame.Position break end
+            end
+            if not eggPos then statusText.Text = "Ei nicht mehr da!" return end
+            
+            -- Flug zum Ei (mit Vektor 1 Check)
+            flyTo(eggPos)
+            
+            -- Prompt feuern
+            for _, obj in pairs(Workspace:GetDescendants()) do
+                if obj:IsA("ProximityPrompt") then
+                    if obj.Parent and (obj.Parent.Position - eggPos).Magnitude < 15 then
+                        if instantGrabEnabled then
+                            obj.HoldDuration = 0
+                        end
+                        pcall(function() fireproximityprompt(obj) end)
+                    end
+                end
+            end
+            task.wait(0.3)
+            
+            -- Zurück fliegen zur Safezone
+            local char = player.Character
+            if char and char:FindFirstChild("HumanoidRootPart") then
+                char.HumanoidRootPart.CFrame = CFrame.new(SAFE_COORDINATES)
+            end
+            statusText.Text = "✅ Erfolgreich geklaut!"
+            
+            task.wait(1) -- Kurz warten, bevor das nächste kommt
+        end)
+        if not ok then statusText.Text = "❌ Fehler: " .. tostring(err) end
+        state.Busy = false
+        
+        -- Full Auto Loop
+        if fullAutoEnabled and not state.Cancel then
+            local function getBestEgg()
+                local infos = {}
+                for _, record in ipairs(snapshot()) do infos[#infos + 1] = describe(record) end
+                table.sort(infos, function(a, b) return a.Value > b.Value end)
+                return infos[1]
+            end
+            
+            local best = getBestEgg()
+            if best then
+                statusText.Text = "Suche nächstes bestes Ei..."
+                stealAndDeliver(best.Uid)
+            else
+                statusText.Text = "Keine Eier mehr gefunden."
+            end
+        end
+    end)
+end    startFarmBtn.MouseButton1Click:Connect(function()
+        if state.Busy then
+            statusText.Text = "Warte, er ist noch beschäftigt..."
+            return
+        end
+        
+        -- Wenn Full Auto an ist, nimmt er das beste Ei
+        if fullAutoEnabled then
+            local bestUid = nil
+            local highestVal = -1
+            for _, record in ipairs(snapshot()) do
+                local info = describe(record)
+                if info.Value > highestVal then
+                    highestVal = info.Value
+                    bestUid = info.Uid
+                end
+            end
+            if bestUid then
+                stealAndDeliver(bestUid)
+            else
+                statusText.Text = "❌ Keine Eier gefunden!"
+            end
+        else
+            -- Wenn Full Auto aus ist, nimmt er das ausgewählte Ei
+            if not selectedUid then
+                statusText.Text = "❌ Wähle zuerst ein Ei aus der Liste!"
+                return
+            end
+            stealAndDeliver(selectedUid)
+        end
+    end)
+
+    -- --- TAB 3: PETS ---
+    local petsContainer = tabContainers["PETS"]
+    local stageStatusLabel = Instance.new("TextLabel")
+    stageStatusLabel.Size = UDim2.new(0.98, 0, 0.9, 0)
+    stageStatusLabel.Position = UDim2.new(0.01, 0, 0.05, 0)
+    stageStatusLabel.BackgroundTransparency = 1
+    stageStatusLabel.TextColor3 = Color3.fromRGB(220, 220, 240)
+    stageStatusLabel.TextSize = 11
+    stageStatusLabel.Font = Enum.Font.Code
+    stageStatusLabel.TextXAlignment = Enum.TextXAlignment.Left
+    stageStatusLabel.TextYAlignment = Enum.TextYAlignment.Top
+    stageStatusLabel.TextWrapped = true
+    stageStatusLabel.Text = "Pets Übersicht folgt in Kürze..."
+    stageStatusLabel.Parent = petsContainer
+
+    -- --- TAB 4: MISC ---
+    local miscContainer = tabContainers["MISC"]
+    local miscDesc = Instance.new("TextLabel")
+    miscDesc.Size = UDim2.new(0.98, 0, 0.9, 0)
+    miscDesc.Position = UDim2.new(0.01, 0, 0.05, 0)
+    miscDesc.BackgroundTransparency = 1
+    miscDesc.TextColor3 = Color3.fromRGB(180, 180, 200)
+    miscDesc.TextSize = 11
+    miscDesc.Font = Enum.Font.Gotham
+    miscDesc.TextXAlignment = Enum.TextXAlignment.Left
+    miscDesc.TextYAlignment = Enum.TextYAlignment.Top
+    miscDesc.TextWrapped = true
+    miscDesc.Text = "Zusaetzliche Optionen:\n\n• Discord beitreten\n• Fixed Safezone Return\n• Auto-Scan Slots"
+    miscDesc.Parent = miscContainer
+
+    -- Sidebar Layout
+    local sidebar = Instance.new("Frame")
+    sidebar.Size = UDim2.new(0, 125, 1, -45)
+    sidebar.Position = UDim2.new(0, 8, 0, 38)
+    sidebar.BackgroundTransparency = 1
+    sidebar.Parent = mainFrame
+
+    local sidebarLayout = Instance.new("UIListLayout")
+    sidebarLayout.Padding = UDim.new(0, 6)
+    sidebarLayout.Parent = sidebar
+
+    local tabButtons = {}
+    local function createTabButton(name)
+        local btn = Instance.new("TextButton")
+        btn.Size = UDim2.new(1, 0, 0, 38)
+        btn.BackgroundColor3 = Color3.fromRGB(22, 22, 30)
+        btn.TextColor3 = Color3.fromRGB(140, 140, 160)
+        btn.TextSize = 12
+        btn.Font = Enum.Font.GothamBold
+        btn.Text = name
+        btn.Parent = sidebar
+        Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 6)
+
+        btn.MouseButton1Click:Connect(function()
+            for _, container in pairs(tabContainers) do container.Visible = false end
+            for _, b in pairs(tabButtons) do 
+                b.BackgroundColor3 = Color3.fromRGB(22, 22, 30)
+                b.TextColor3 = Color3.fromRGB(140, 140, 160)
+            end
+            tabContainers[name].Visible = true
+            btn.BackgroundColor3 = Color3.fromRGB(32, 32, 45)
+            btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+        end)
+        tabButtons[name] = btn
+    end
+
+    createTabButton("FARM")
+    createTabButton("PLAYER")
+    createTabButton("PETS")
+    createTabButton("MISC")
+
+    tabContainers["FARM"].Visible = true
+    tabButtons["FARM"].BackgroundColor3 = Color3.fromRGB(32, 32, 45)
+    tabButtons["FARM"].TextColor3 = Color3.fromRGB(255, 255, 255)
+    
+    task.delay(0.2, rebuild)
+end)
